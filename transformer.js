@@ -44,9 +44,50 @@ const cleanProfiles = (users) => {
 // spread and rest took me a minute
 
 
+// filter active accounts
+
+const filterActiveUsers = (users) => {
+  return users.filter(user => user.status === "active")
+}
 
 
+// profile update
 
+const updateUserRole = (users, userId, newRole) => {
+  return users.map(user => {
+    if (user.id === userId) {
+      return { 
+        ...user, 
+        role: newRole 
+      };
+    }
+    return user;
+  });
+}
+// i pretty much did this when i was cleaning the data but i was not destructuring
+
+
+// role breakdown
+
+const countUsersByRole = (users) => {
+  return users.reduce((count, { role }) => {
+    count[role] = (count[role] || 0) + 1;
+    return count;
+  }, {});
+}
+
+// this was a tough one to wrap my head around, 
+
+
+// summary report
+
+const logUserDirectory = (users) => {
+  users.forEach(({ id, full_name, role, averageScore, status }) => {
+    console.log(
+      `[ID ${id}] ${full_name} (${role.toUpperCase()}) - Avg Score: ${averageScore.toFixed(2)} | Status: ${status.toUpperCase()}`
+    )
+  });
+}
 
 
 
@@ -57,18 +98,18 @@ console.log("=== 1. Cleaned Data ===");
 const cleaned = cleanProfiles(rawUserData);
 console.log(cleaned);
 
-// console.log("\n=== 2. Active Users Only ===");
-// const activeUsers = filterActiveUsers(cleaned);
-// console.log(activeUsers);
+console.log("\n=== 2. Active Users Only ===");
+const activeUsers = filterActiveUsers(cleaned);
+console.log(activeUsers);
 
-// console.log("\n=== 3. Updated User Role ===");
-// const updatedList = updateUserRole(cleaned, 2, "admin");
-// console.log("Original User 2 Role:", cleaned[1].role); // Should still be 'user'
-// console.log("Updated User 2 Role:", updatedList[1].role); // Should be 'admin'
+console.log("\n=== 3. Updated User Role ===");
+const updatedList = updateUserRole(cleaned, 2, "admin");
+console.log("Original User 2 Role:", cleaned[1].role); // Should still be 'user'
+console.log("Updated User 2 Role:", updatedList[1].role); // Should be 'admin'
 
-// console.log("\n=== 4. Role Counts ===");
-// const roleCounts = countUsersByRole(cleaned);
-// console.log(roleCounts);
+console.log("\n=== 4. Role Counts ===");
+const roleCounts = countUsersByRole(cleaned);
+console.log(roleCounts);
 
-// console.log("\n=== 5. User Directory Report ===");
-// logUserDirectory(cleaned);
+console.log("\n=== 5. User Directory Report ===");
+logUserDirectory(cleaned);
