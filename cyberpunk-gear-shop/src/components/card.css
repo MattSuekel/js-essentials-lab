@@ -1,0 +1,10 @@
+.card-styles {
+  border: 1.5px solid #ffbf66;
+  margin: 1rem;
+  padding: 1.5rem;
+  transition: background 1s;
+}
+
+.card-styles:hover {
+  background: #1f2028;
+}
