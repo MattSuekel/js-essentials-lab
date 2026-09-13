@@ -2,7 +2,7 @@ import ScoreCard from './ScoreCard';
 
 function LeaderboardList(props) {
   return(
-    <div>
+    <div className='leaderboard'>
       <h2>Leaderboard</h2>
 
       {

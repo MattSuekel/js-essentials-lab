@@ -4,7 +4,7 @@ function CategoryFilter(props) {
   }  
 
   return (
-  <div>
+  <div className='category-filter'>
     <label>Filter by Category</label>
     <select
       value={props.selected}

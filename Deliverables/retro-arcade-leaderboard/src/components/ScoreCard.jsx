@@ -1,6 +1,6 @@
 function ScoreCard(props) {
   return (
-    <div>
+    <div className="card">
       <h3>{props.playerInitials}</h3> 
       <h4>{props.gameTitle}</h4>
       <p>Score: {props.score}</p>
