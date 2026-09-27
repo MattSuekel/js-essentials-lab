@@ -7,7 +7,7 @@ const BookmarkList = props => {
 
   return (
     <ul>
-      {props.listItems.map(bookmark => (
+      {props.items.map(bookmark => (
         <BookmarkItem
           key={bookmark.id}
           id={bookmark.id}

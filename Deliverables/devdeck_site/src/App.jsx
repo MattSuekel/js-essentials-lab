@@ -1,6 +1,6 @@
 import { useState } from 'react';
 // Importing components
-import BookmarkInput from './BookmarkInput';
+import BookmarkInput from './components/BookmarkInput';
 import BookmarkList from './components/BookmarkList';
 
 const INITIAL_BOOKMARKS = [

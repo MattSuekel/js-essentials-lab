@@ -7,7 +7,7 @@ const BookmarkInput = props => {
   const [isValid, setIsValid] = useState(true);
 
   const submitHandler = event => {
-    // Missing e.preventDefault() here!
+    event.preventDefault()
 
     if (title.trim().length === 0 || url.trim().length === 0) {
       setIsValid(false);
@@ -64,6 +64,7 @@ const BookmarkInput = props => {
 
       <button type="submit">Add Bookmark</button>
     </form>
+  )
   
 };
 

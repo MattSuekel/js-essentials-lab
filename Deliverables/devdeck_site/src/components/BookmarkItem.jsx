@@ -13,7 +13,7 @@ const BookmarkItem = props => {
       </p>
 
       <div>
-        <button onClick={() => props.onFavoriteToggle(props.id)}>
+        <button onClick={() => props.onToggleFavorite(props.id)}>
           {props.isFavorite ? '★ Favorited' : '☆ Favorite'}
         </button>
         <button onClick={() => props.onDelete(props.id)}>
