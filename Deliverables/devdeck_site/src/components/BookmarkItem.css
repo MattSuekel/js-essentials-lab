@@ -1,0 +1,80 @@
+.bookmark-item {
+  border: 1px solid #2e2e2e;
+  padding: 1rem 1.25rem;
+  transition: all 0.15s ease;
+}
+
+.bookmark-item:hover {
+  border-color: #3f3f3f;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.bookmark-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.bookmark-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.category-pill {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+.bookmark-link-wrapper {
+  margin: 0.4rem 0 0.85rem 0;
+}
+
+.bookmark-link {
+  color: #8b8d91;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  word-break: break-all;
+}
+
+.bookmark-link:hover {
+  color: #9d8df1;
+}
+
+.bookmark-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  background: #262626;
+  border: 1px solid #363636;
+  padding: 0.3rem 0.65rem;
+  font-size: 0.8rem;
+  color: #b0b2b5;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.action-btn:hover {
+  background: #323232;
+  color: #ffffff;
+}
+
+.btn-fav-active {
+  border-color: #d97706;
+  color: #fbbf24;
+  background-color: #2b2416;
+  font-weight: 500;
+}
+
+.btn-delete:hover {
+  border-color: #e06c75;
+  color: #e06c75;
+  background-color: #2b1d1f;
+}
