@@ -1,26 +1,40 @@
+import { useState } from 'react';
 import BookList from './components/BookList';
 import './App.css';
 
 function App() {
-  const books = [
-    {
-      id: '1',
-      title: 'The Stand',
-      author: 'Stephen King',
-      publishYear: '1978',
-    },
-    {
-      id: '1',
-      title: 'Sphere',
-      author: 'MICHAEAL Crichton',
-      publishYear: '1987',
-    },
-  ];
+  const [books, setBooks] = useState([]);
+
+  function fetchBookHandler() {
+    fetch("https://openlibrary.org/search.json?q=fiction&limit=10").then(
+      (response) => {
+        const temp = response.json();
+
+        console.log(temp);
+        return temp;
+      }
+    ).then(
+        (data) => {
+          console.log(data.docs);
+  
+          const transformedData = data.docs.map((bookData) => {
+            return {
+              id: bookData.key,
+              title: bookData.title,
+              author: bookData.author_name,
+              publishYear: bookData.first_publish_year
+            };
+          });
+
+          setBooks(transformedData);
+        }
+      );
+  }
 
   return (
     <main className="container">
       <section>
-        <button>Fetch Books</button>
+        <button onClick={fetchBookHandler}>Fetch Books</button>
       </section>
       <section>
         <BookList books={books}/>
@@ -30,3 +44,4 @@ function App() {
 }
 
 export default App;
+
