@@ -1,96 +1,105 @@
 import { useState, useEffect, useCallback } from 'react';
 import BookList from './components/BookList';
+import AddBook from './components/AddBook';
 import './App.css';
 
 function App() {
   const [books, setBooks] = useState([]);
-  const [isLoading, setIsLoading] = useState (false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('')
 
-  const fetchBookHandler = useCallback(async (query) => {
+  const URL = 'http://localhost:3000/books'
 
-    if (!query.trim())
-      return;
-
+  const fetchBooksHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
-
-
     try {
-      const response = await fetch(
-        `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=10`
-      );
+      const response = await fetch(URL);
 
       if (!response.ok) {
-        throw new Error(`Error! Status: ${response.status}`);
+        throw new Error("unable to retreive books.")
       }
 
       const data = await response.json();
 
-      const transformedData = data.docs.map((bookData) => {
-        return {
-          id: bookData.key,
-          title: bookData.title,
-          author: bookData.author_name,
-          publishYear: bookData.first_publish_year
-        };
+      // const loadedBooks = []
+      //
+      // for (const key in data) {
+      //   loadedBooks.push({
+      //     id: key,
+      //     title: data[key].title,
+      //     author: data[key].author,
+      //     publishYear: data[key].publishYear,
+      //   })
+      // }
+
+      setBooks(data);
+    }
+    catch (err) {
+      setError(err.message);
+    }
+    setIsLoading(false);
+  }, [URL]);
+
+  async function addBookHandler(book) {
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch(URL, {
+        method: 'POST',
+        body: JSON.stringify(book),
+        header: {
+        'Content-Type': 'application/json'
+        }
       });
 
-      setBooks(transformedData);
-    } catch(e) {
-      setError(e.message);
+      if (!response.ok) {
+        throw new Error('Failed to save.');
+      }
+
+      fetchBooksHandler();
+    }
+    catch (err) {
+      setError(err.message);
     }
 
     setIsLoading(false)
-  }, []);
+  }
 
   useEffect(() => {
-    fetchBookHandler("");
-  }, [fetchBookHandler]);
+    fetchBooksHandler();
+  }, [fetchBooksHandler]);
 
-  function searchInputChangeHandler(event) {
-    setSearchTerm(event.target.value);  
-  }
-
-  function submitHandler(event) {
-    event.preventDefault();
-    fetchBookHandler(searchTerm);
-  }
-
-  let content = <p>no books found</p>
+  let content = <p>No books found.</p>;
 
   if (books.length > 0) {
-    content = <BookList books={books} />
+    content = <BookList books={books} />;
   }
 
   if (error) {
-    content = <p>{error}</p>
+    content = <p>{error}</p>;
   }
 
   if (isLoading) {
-    content = <p>loading...</p>
+    content = <p>Loading books...</p>;
   }
 
   return (
     <main className="container">
       <section>
-        <form onSubmit={submitHandler}>
-          <input 
-            type='text'
-            value={searchTerm}
-            onChange={searchInputChangeHandler}
-            placeholder='Search...'
-          />
-          <br/><br/>
-          <button type='submit'>Fetch Books</button>
-        </form>
+        <h2>Add New Book</h2>
+        <AddBook onAddBook={addBookHandler} />
       </section>
+
+      <section>
+        <button onClick={fetchBooksHandler}>Fetch Books</button>
+      </section>
+
       <section>{content}</section>
     </main>
   );
 }
 
 export default App;
-
