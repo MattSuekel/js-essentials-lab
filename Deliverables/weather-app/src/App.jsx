@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import SearchForm from './components/searchForm';
 import WeatherCard from './components/WeatherCard';
-import './App.css';
 
 const KEY = import.meta.env.VITE_WEATHER_KEY;
 
@@ -63,19 +62,40 @@ function App() {
   }, [cityInput, fetchWeatherHandler]);
 
   return (
-  <>
-    <SearchForm onSearch={setCityInput} isLoading={isLoading} />
+    <main className="min-h-screen px-4 py-16">
+      <div className="mx-auto max-w-lg space-y-8">
+        <header className="text-center">
+          <h1 className="text-2xl font-semibold">Open Weather Fetch</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            current weather by city
+          </p>
+        </header>
 
-      {isLoading && <p>Loading weather data...</p>}
-      {error && <p>Error: {error}</p>}
-
-      {!isLoading && !error && (
-        <WeatherCard 
-          locationName={locationName} 
-          currentWeather={currentWeather} 
+        <SearchForm
+          onSearch={setCityInput}
+          isLoading={isLoading}
         />
-      )}
-    </>
+
+        {isLoading && (
+          <p className="text-center text-sm text-muted-foreground">
+            Loading weather data...
+          </p>
+        )}
+
+        {error && (
+          <p role="alert" className="text-center text-sm text-red-400">
+            {error}
+          </p>
+        )}
+
+        {!isLoading && !error && (
+          <WeatherCard
+            locationName={locationName}
+            currentWeather={currentWeather}
+          />
+        )}
+      </div>
+    </main>
   )
 }
 
