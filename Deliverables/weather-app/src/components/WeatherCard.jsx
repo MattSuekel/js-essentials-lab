@@ -5,6 +5,12 @@ function WeatherCard(props) {
 
   const weather = props.currentWeather;
 
+  const getCardinalDirection = (deg) => {
+    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+    const index = Math.round(deg / 45) % 8;
+    return directions[index];
+  };
+
   return (
     <section className="border border-border bg-muted p-6">
       <p className="text-sm text-muted-foreground">
@@ -42,16 +48,16 @@ function WeatherCard(props) {
         </div>
 
         <div>
-          <p className="text-xs text-muted-foreground">Wind Degrees</p>
+          <p className="text-xs text-muted-foreground">Wind Direction</p>
           <p className="mt-1 font-medium">
-            {weather.wind.deg} deg
+            {getCardinalDirection(weather.wind.deg)}
           </p>
         </div>
 
         <div>
           <p className="text-xs text-muted-foreground">Visibility</p>
           <p className="mt-1 font-medium">
-            {weather.visibility} m
+            {Math.round(weather.visibility * .000621371)} miles
           </p>
         </div>
 
