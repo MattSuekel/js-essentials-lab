@@ -2,13 +2,16 @@ import useLocalStorage from "./hooks/useLocalStorage";
 
 function App() {
   // Name preference
-  const [name, setName] = useLocalStorage("studentName", "")
+  const [name, setName] = useLocalStorage("studentName", "");
 
   // Favorite language preference
   const [language, setLanguage] = useLocalStorage("favoriteLanguage", "JavaScript");
 
   // Dark mode preference
   const [darkMode, setDarkMode] = useLocalStorage("darkMode", true);
+
+  // prefered font size 
+  const [fontSize, setFontSize] = useLocalStorage("fontSize", "12pt");
 
 
   const formSubmitHandler = (event) => {
@@ -17,6 +20,7 @@ function App() {
     console.log("Saved Preferences:", {
       name,
       language,
+      fontSize,
       darkMode,
     });
 
@@ -50,6 +54,20 @@ function App() {
             <option value="Java">Java</option>
             <option value="C++">C++</option>
             <option value="C#">C#</option>
+          </select>
+        </div>
+
+        <div className="form-control">
+          <label htmlFor="fontSize">Perfered Font Size</label>
+          <select
+            id="fontSize"
+            value={fontSize}
+            onChange={(event) => setFontSize(event.target.value)}
+          >
+            <option value="10pt">10pt</option>
+            <option value="12pt">12pt</option>
+            <option value="14pt">14pt</option>
+            <option value="16pt">16pt</option>
           </select>
         </div>
 
