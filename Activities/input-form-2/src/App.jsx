@@ -1,4 +1,3 @@
-import { useState } from "react";
 import useInput from "./hooks/useInput";
 
 function App() {
@@ -12,8 +11,6 @@ function App() {
     reset: resetName
   } = useInput((value) => value.trim() !== '');
 
-                               
-
   const { 
     value: email,
     isValid: emailIsValid,
@@ -23,11 +20,18 @@ function App() {
     reset: resetEmail
   } = useInput((value) => value.includes('@'));
 
-  // const emailIsValid = email.trim() !== '' && email.includes('@');
+  const { 
+    value: zip,
+    isValid: zipIsValid,
+    hasError: zipHasError,
+    valueChangeHandler: zipChangeHandler,
+    inputBlurHandler: zipBlurHandler,
+    reset: resetZip
+  } = useInput((value) => value.trim().length === 5 && /^\d+$/.test(value.trim()));
 
-                              
+
   let formIsValid = false;
-  if (nameIsValid && emailIsValid)
+  if (nameIsValid && emailIsValid && zipIsValid)
     formIsValid = true;
 
   const formSubmitHandler = (event) => {
@@ -38,10 +42,13 @@ function App() {
     // Reset input
     resetName;
     resetEmail;
+    resetZip;
   };
 
   const nameClasses = nameHasError ? "form-control invalid" : "form-control"; 
   const emailClasses = emailHasError ? "form-control invalid" : "form-control";
+  const zipClasses = zipHasError ? "form-control invalid" : "form-control";
+
 
 
   return (
@@ -69,6 +76,18 @@ function App() {
           onBlur={emailBlurHandler}
         />
         { emailHasError && <p className="error-text">must contain @</p> }
+      </div>
+
+      <div className={zipClasses}>
+        <label htmlFor="zip">Zip Code</label>
+        <input
+          type="text"
+          id="zip"
+          value={zip}
+          onChange={zipChangeHandler}
+          onBlur={zipBlurHandler}
+        />
+        { zipHasError && <p className="error-text">Zip must only be 5 digits</p> }
       </div> 
 
       <div className="form-actions">
