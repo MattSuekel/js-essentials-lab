@@ -1,105 +1,80 @@
 import { useState, useEffect, useCallback } from 'react';
 import BookList from './components/BookList';
-import AddBook from './components/AddBook';
 import './App.css';
+import useHttp from './hooks/useHttp';
 
 function App() {
   const [books, setBooks] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('')
 
-  const URL = 'http://localhost:3000/books'
+  const { isLoading, error, sendRequest } = useHttp();
 
-  const fetchBooksHandler = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch(URL);
-
-      if (!response.ok) {
-        throw new Error("unable to retreive books.")
-      }
-
-      const data = await response.json();
-
-      // const loadedBooks = []
-      //
-      // for (const key in data) {
-      //   loadedBooks.push({
-      //     id: key,
-      //     title: data[key].title,
-      //     author: data[key].author,
-      //     publishYear: data[key].publishYear,
-      //   })
-      // }
-
-      setBooks(data);
-    }
-    catch (err) {
-      setError(err.message);
-    }
-    setIsLoading(false);
-  }, [URL]);
-
-  async function addBookHandler(book) {
-    setIsLoading(true)
-    setError(null)
-
-    try {
-      const response = await fetch(URL, {
-        method: 'POST',
-        body: JSON.stringify(book),
-        header: {
-        'Content-Type': 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to save.');
-      }
-
-      fetchBooksHandler();
-    }
-    catch (err) {
-      setError(err.message);
+  const fetchBookHandler = useCallback((query) => {
+    if (!query.trim()) {
+      return;
     }
 
-    setIsLoading(false)
-  }
+  const transformBooks = (data) => {
+    const transformedData = data.docs.map((bookData) => ({
+      id: bookData.key,
+      title: bookData.title,
+      author: bookData.author_name,
+      publishYear: bookData.first_publish_year,
+    }));
+
+    setBooks(transformedData);
+  };
+
+  const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=10`;
+  
+    sendRequest(url, {}, transformBooks);
+  }, [sendRequest]);
 
   useEffect(() => {
-    fetchBooksHandler();
-  }, [fetchBooksHandler]);
+    fetchBookHandler("");
+  }, [fetchBookHandler]);
 
-  let content = <p>No books found.</p>;
+  function searchInputChangeHandler(event) {
+    setSearchTerm(event.target.value);  
+  }
+
+  function submitHandler(event) {
+    event.preventDefault();
+    fetchBookHandler(searchTerm);
+  }
+
+  let content = <p>no books found</p>
 
   if (books.length > 0) {
-    content = <BookList books={books} />;
+    content = <BookList books={books} />
   }
 
   if (error) {
-    content = <p>{error}</p>;
+    content = <p>{error}</p>
   }
 
   if (isLoading) {
-    content = <p>Loading books...</p>;
+    content = <p>loading...</p>
   }
 
   return (
     <main className="container">
       <section>
-        <h2>Add New Book</h2>
-        <AddBook onAddBook={addBookHandler} />
+        <form onSubmit={submitHandler}>
+          <input 
+            type='text'
+            value={searchTerm}
+            onChange={searchInputChangeHandler}
+            placeholder='Search...'
+          />
+          <br/><br/>
+          <button type='submit'>Fetch Books</button>
+        </form>
       </section>
-
-      <section>
-        <button onClick={fetchBooksHandler}>Fetch Books</button>
-      </section>
-
       <section>{content}</section>
     </main>
   );
 }
 
 export default App;
+

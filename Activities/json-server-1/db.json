@@ -1,0 +1,73 @@
+{
+  "books": [
+    {
+      "id": "1",
+      "title": "Absolute Power",
+      "author": "david baldacci",
+      "publishYear": "1969"
+    },
+    {
+      "id": "2",
+      "title": "tryptich",
+      "author": "karen slaughter",
+      "publishYear": "2005"
+    },
+    {
+      "title": "Relic",
+      "author": "Preston and Child",
+      "publishYear": "1995",
+      "id": "nMtAiE2RZwU"
+    },
+    {
+      "title": "Into Thin Air",
+      "author": "Jon Krakauer",
+      "publishYear": "1997",
+      "id": "bSA2jmO4pT8"
+    },
+    {
+      "title": "Thus Spoke Zarathustra",
+      "author": "Friedrich Nietzsche",
+      "publishYear": "1983",
+      "id": "1atC1fk55HU"
+    },
+    {
+      "title": "Hypermedia Systems",
+      "author": "Carson Gross",
+      "publishYear": "2023",
+      "id": "BonAmvrJHhE"
+    },
+    {
+      "title": "Watership Down",
+      "author": "Richard Adams",
+      "publishYear": "1972",
+      "id": "uoBW_63RQGY"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "1",
+      "text": "complete homework"
+    },
+    {
+      "id": "2",
+      "text": "meal prep"
+    },
+    {
+      "text": "test task",
+      "id": "XW-LdDR4cKg"
+    },
+    {
+      "text": "json server setup",
+      "id": "1QAIbvVqhiw"
+    },
+    {
+      "text": "Publish viso",
+      "id": "Dnny8O-JWMk"
+    },
+    {
+      "text": "test task",
+      "id": "lAK-KV8fDF8"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
