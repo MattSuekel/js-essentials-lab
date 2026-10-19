@@ -1,35 +1,15 @@
-import { useEffect, useState } from "react";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 function App() {
   // Name preference
-  const [name, setName] = useState(() => {
-    const savedName = localStorage.getItem("studentName");
-    return savedName || "";
-  });
-
-  useEffect(() => {
-    localStorage.setItem("studentName", name);
-  }, [name]);
+  const [name, setName] = useLocalStorage("studentName", "")
 
   // Favorite language preference
-  const [language, setLanguage] = useState(() => {
-    const savedLanguage = localStorage.getItem("favoriteLanguage");
-    return savedLanguage || "JavaScript";
-  });
-
-  useEffect(() => {
-    localStorage.setItem("favoriteLanguage", language);
-  }, [language]);
+  const [language, setLanguage] = useLocalStorage("favoriteLanguage", "JavaScript");
 
   // Dark mode preference
-  const [darkMode, setDarkMode] = useState(() => {
-    const savedDarkMode = localStorage.getItem("darkMode");
-    return savedDarkMode === "true";
-  });
+  const [darkMode, setDarkMode] = useLocalStorage("darkMode", true);
 
-  useEffect(() => {
-    localStorage.setItem("darkMode", darkMode);
-  }, [darkMode]);
 
   const formSubmitHandler = (event) => {
     event.preventDefault();
